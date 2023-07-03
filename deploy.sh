@@ -4,5 +4,5 @@ if [[ "$?" == 0 ]] ; then
   sudo pkill flask
 fi
 cd flask
-sudo flask run --host=0.0.0.0 &
+nohup flask run --host=0.0.0.0 
 sleep 3
