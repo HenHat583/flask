@@ -1,24 +1,37 @@
-#! /bin/bash
-pgrep flask
-if [[ "$?" == 0 ]]; then
-  sudo pkill flask
+#!/bin/bash
+
+# Check if Flask is already running and kill the process if necessary
+if pgrep -f "flask run" >/dev/null; then
+  pkill -f "flask run"
 fi
-cd flask
-nohup flask run --host=0.0.0.0 &
+
+# Change to the Flask project directory
+cd /flask
+
+# Start Flask in the background and store the process ID
+nohup flask run --host=0.0.0.0 >/dev/null 2>&1 &
 FLASK_PID=$!
 
-# Wait for the Flask application to start
-for _ in {1..30}; do
-  sleep 1
-  curl -s http://localhost:5000 >/dev/null && break
+# Wait for Flask to start by checking if the server is running
+TIMEOUT=30
+INTERVAL=1
+TIME_PASSED=0
+SERVER_UP=false
+
+while [[ "$TIME_PASSED" -lt "$TIMEOUT" ]]; do
+  if curl -s http://localhost:5000 >/dev/null; then
+    SERVER_UP=true
+    break
+  fi
+  sleep "$INTERVAL"
+  TIME_PASSED=$((TIME_PASSED + INTERVAL))
 done
 
-# Check if the application started successfully
-if [[ "$?" == 0 ]]; then
-  # The application started successfully
+# Check if Flask started successfully
+if "$SERVER_UP"; then
+  echo "Flask application started successfully."
   exit 0
 else
-  # The application failed to start within the timeout
-  sudo pkill -P $FLASK_PID
+  echo "Flask application failed to start within the timeout."
   exit 1
 fi
