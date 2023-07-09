@@ -17,6 +17,7 @@ images = [
     "https://media4.giphy.com/media/12P6AnN6DcQj1S/giphy.gif",
     "https://thumbs.gfycat.com/WideeyedEnchantedHog-max-1mb.gif",
     "https://gifbin.com/bin/102009/1255351825_baby-puke.gif",
+    "<iframe src="https://giphy.com/embed/l4KibWpBGWchSqCRy" width="480" height="436" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/afv-funny-fail-lol-l4KibWpBGWchSqCRy">via GIPHY</a></p>",
 ]
 
 
